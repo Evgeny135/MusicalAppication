@@ -31,9 +31,9 @@ public class SecurityConfig {
         // Инициализация юзерСервиса
         UserService users = new UserService();
         // Добавляем пользователей в юзерСервис
-        users.addUser(new org.application.musicalappication.security.User(0,"user@sber.ru",passwordEncoder().encode("user"),"ROLE_USER"));
-        users.addUser(new org.application.musicalappication.security.User(1,"admin@sber.ru",passwordEncoder().encode("admin"),"ROLE_ADMIN"));
-        users.addUser(new org.application.musicalappication.security.User(2,"owner@sber.ru",passwordEncoder().encode("owner"),"ROLE_ADMIN ROLE_USER"));
+        users.addUser(new org.application.musicalappication.security.User("user@sber.ru",encoder.encode("user"),"ROLE_USER"));
+        users.addUser(new org.application.musicalappication.security.User("admin@sber.ru",encoder.encode("admin"),"ROLE_ADMIN"));
+        users.addUser(new org.application.musicalappication.security.User("owner@sber.ru",encoder.encode("owner"),"ROLE_ADMIN ROLE_USER"));
         return users;
     }
 

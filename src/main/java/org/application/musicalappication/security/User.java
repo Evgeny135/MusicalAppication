@@ -3,7 +3,6 @@ package org.application.musicalappication.security;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -14,7 +13,7 @@ public class User implements UserDetails {
     private String password;
     private String roles;
 
-    public User(long id, String email, String password, String roles) {
+    public User(String email, String password, String roles) {
         this.email = email;
         this.password = password;
         this.roles = roles;
@@ -31,8 +30,7 @@ public class User implements UserDetails {
     // Получение ролей
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        var rolesList = Arrays.stream(this.getRoles().split(" ")).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
-        return rolesList;
+        return Arrays.stream(this.getRoles().split(" ")).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
     }
 
     public String getPassword() {
