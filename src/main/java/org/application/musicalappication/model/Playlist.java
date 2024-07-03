@@ -29,7 +29,24 @@ public class Playlist {
     @Column(name = "cover")
     private String cover;
 
+    @ManyToMany
+    @JoinTable(
+            name = "tracking_playlist",
+            joinColumns = @JoinColumn(name = "playlist.id"),
+            inverseJoinColumns = @JoinColumn(name = "track.id")
+    )
+    private List<Track> tracks;
+
+
     public Playlist() {
+    }
+
+    public List<Track> getTracks() {
+        return tracks;
+    }
+
+    public void setTracks(List<Track> tracks) {
+        this.tracks = tracks;
     }
 
     public Long getId() {
@@ -80,13 +97,6 @@ public class Playlist {
         this.cover = cover;
     }
 
-    @ManyToMany
-    @JoinTable(
-            name = "tracking_playlist",
-            joinColumns = @JoinColumn(name = "id"),
-            inverseJoinColumns = @JoinColumn(name = "id")
-    )
-    private List<Track> tracks;
 
     @Override
     public String toString() {
