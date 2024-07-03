@@ -42,6 +42,14 @@ public class Track {
     public Track() {
     }
 
+    public List<Playlist> getPlaylists() {
+        return playlists;
+    }
+
+    public void setPlaylists(List<Playlist> playlists) {
+        this.playlists = playlists;
+    }
+
     public Long getId() {
         return id;
     }
