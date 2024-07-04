@@ -5,6 +5,7 @@ import org.application.musicalappication.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -18,5 +19,10 @@ public class IndexController {
     @ResponseBody
     public Client index(@RequestParam Long id){
         return userService.getClientById(id);
+    }
+
+    @GetMapping("/test")
+    public String test(){
+        return "authorization";
     }
 }
