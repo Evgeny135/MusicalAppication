@@ -12,15 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class IndexController {
 
-    @Autowired
-    private UserService userService;
-
-    @GetMapping("/")
-    @ResponseBody
-    public Client index(@RequestParam Long id){
-        return userService.getClientById(id);
-    }
-
     @GetMapping("/test")
     public String test(){
         return "authorization";
