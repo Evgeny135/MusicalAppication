@@ -1,46 +1,66 @@
 package org.application.musicalappication.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractAuthenticationFilterConfigurer;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.stereotype.Component;
 
+@Component
 @Configuration
 @EnableWebSecurity // Включение защиты
 @EnableMethodSecurity // Включениедоступа к методам по роллям
 public class SecurityConfig {
     // Настройка фильтра запросов
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/public/**").permitAll()  // Делаем все запросы с корнем public с общим доступом
                 .requestMatchers("/secured/**").authenticated() // Делаем все запросы с корнем secured с закрытым доступом
                 )
-                .formLogin(AbstractAuthenticationFilterConfigurer::permitAll); // Делаем форму входа общедоступной
+                .formLogin(AbstractAuthenticationFilterConfigurer::permitAll)
+                .logout(logout -> logout.logoutSuccessUrl("/public/welcome")); // Делаем форму входа общедоступной
         return http.build();
     }
-    // Управление пользователями
-    @Bean
-    public UserDetailsService userDetailsService(PasswordEncoder encoder) {
-        // Инициализация юзерСервиса
-        UserService users = new UserService();
-        // Добавляем пользователей в юзерСервис
-        users.addUser(new org.application.musicalappication.security.User("user@sber.ru",encoder.encode("user"),"ROLE_USER"));
-        users.addUser(new org.application.musicalappication.security.User("admin@sber.ru",encoder.encode("admin"),"ROLE_ADMIN"));
-        users.addUser(new org.application.musicalappication.security.User("owner@sber.ru",encoder.encode("owner"),"ROLE_ADMIN ROLE_USER"));
-        return users;
-    }
 
+    @Autowired
+    ClientService clientService;
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(clientService);
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
+    }
+    @Primary
+    @Bean
+    public AuthenticationManagerBuilder  configureAuthenticationManager(AuthenticationManagerBuilder auth){
+        auth.authenticationProvider(authenticationProvider());
+        return auth;
+    }
     // Инициализация шифратора паролей
     @Bean
     public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
+        return new PasswordEncoder() {
+            @Override
+            public String encode(CharSequence rawPassword) {
+                return rawPassword.toString();
+            }
+
+            @Override
+            public boolean matches(CharSequence rawPassword, String encodedPassword) {
+                return rawPassword.toString().equals(encodedPassword);
+            }
+        };
     }
 
 }
