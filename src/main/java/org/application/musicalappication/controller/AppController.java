@@ -7,6 +7,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class AppController {
     //Пример страницы с незащищенным доступом
+    @GetMapping("/")
+    @PreAuthorize("permitAll()")
+    public String home() {
+        return "redirect:/public/welcome"; // Перенаправление на /public/welcome
+    }
     @GetMapping("public/welcome")
     @PreAuthorize("permitAll()")
     public String welcome(){
