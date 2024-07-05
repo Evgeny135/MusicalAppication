@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -32,7 +33,7 @@ public class SecurityConfig{
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/public/**").permitAll()  // Делаем все запросы с корнем public с общим доступом
+                        .requestMatchers("/public/**", "/register/**").permitAll()  // Делаем все запросы с корнем public с общим доступом
                         .requestMatchers("/secured/**").authenticated() // Делаем все запросы с корнем secured с закрытым доступом
                 )
                 .formLogin(Customizer.withDefaults())
@@ -56,6 +57,6 @@ public class SecurityConfig{
     // Инициализация шифратора паролей
     @Bean
     public PasswordEncoder passwordEncoder(){
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
 }

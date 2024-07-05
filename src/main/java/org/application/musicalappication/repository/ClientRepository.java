@@ -25,4 +25,10 @@ public class ClientRepository {
                 .setParameter("email", email)
                 .uniqueResult());
     }
+
+    @Transactional
+    public void register(Client client){
+        Session session = sessionFactory.getCurrentSession();
+        session.persist(client);
+    }
 }
