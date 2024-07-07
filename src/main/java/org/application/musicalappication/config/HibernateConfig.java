@@ -9,7 +9,6 @@ import java.util.Properties;
 
 @org.springframework.context.annotation.Configuration
 public class HibernateConfig {
-
     @Autowired
     private DataSource dataSource;
     @Bean
