@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+</head>
+<body>
+<img src="../../static/images/logo.png" alt="Logo">
+<h1 th:text="'Добро пожаловать, ' + ${username} + '!'">Добро пожаловать, Аноним!</h1>
+  <br>
+  <a href="/secured/user">User</a>
+  <br>
+  <a href="/secured/admin">Admin</a>
+</body>
+</html>
