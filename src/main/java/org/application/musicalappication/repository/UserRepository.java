@@ -20,6 +20,11 @@ public class UserRepository {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("FROM Client ");
         List<Client> clientList = query.list();
+        for (int i = 0; i < clientList.size(); i++) {
+            if (clientList.get(i).getEmail().equals(email)){
+                return clientList.get(i);
+            }
+        }
         return clientList.stream().filter(c -> c.getEmail().equals(email)).findFirst().get();
     }
 

@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractAuthenticationFilterConfigurer;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.stereotype.Component;
@@ -27,10 +28,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**").permitAll()
-                .requestMatchers("/").permitAll()
+                .requestMatchers("/","/public/**","/resources/**", "/static/**","/images/**","/registration").permitAll()
                 .requestMatchers("/user/**").authenticated()
-                .requestMatchers("/public/**").permitAll()  // Делаем все запросы с корнем public с общим доступом
                 .requestMatchers("/secured/**").authenticated() // Делаем все запросы с корнем secured с закрытым доступом
                 )
                 .formLogin(AbstractAuthenticationFilterConfigurer::permitAll)
@@ -56,17 +55,7 @@ public class SecurityConfig {
     // Инициализация шифратора паролей
     @Bean
     public PasswordEncoder passwordEncoder(){
-        return new PasswordEncoder() {
-            @Override
-            public String encode(CharSequence rawPassword) {
-                return rawPassword.toString();
-            }
-
-            @Override
-            public boolean matches(CharSequence rawPassword, String encodedPassword) {
-                return rawPassword.toString().equals(encodedPassword);
-            }
-        };
+        return new BCryptPasswordEncoder();
     }
 
 }

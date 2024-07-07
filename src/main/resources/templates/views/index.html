@@ -9,10 +9,11 @@
 </head>
 <body>
 <div class="row" th:insert="templs/nav::nav"></div>
-<h1 th:text="'Добро пожаловать, ' + ${username} + '!'">Добро пожаловать, Аноним!</h1>
-  <br>
-  <a href="/secured/user">User</a>
-  <br>
-  <a href="/secured/admin">Admin</a>
+<div class="container"><h1 th:text="'Добро пожаловать, ' + ${username} + '!'">Добро пожаловать, Аноним!</h1>
+    <br>
+    <a href="/secured/user">User</a>
+    <br>
+    <a href="/secured/admin">Admin</a></div>
+
 </body>
 </html>
