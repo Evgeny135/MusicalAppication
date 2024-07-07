@@ -1,5 +1,6 @@
 package org.application.musicalappication.repository;
 
+import jakarta.transaction.Transactional;
 import org.application.musicalappication.model.Client;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -8,28 +9,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
+import java.util.Optional;
 
 @Repository
-public class UserRepository {
-
+public class ClientRepository {
 
     @Autowired
     private SessionFactory sessionFactory;
 
-    public Client getClientByEmail(String email){
+    @Transactional
+    public Optional<Client> getClientByEmail(String email) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("FROM Client ");
-        List<Client> clientList = query.list();
-        for (int i = 0; i < clientList.size(); i++) {
-            if (clientList.get(i).getEmail().equals(email)){
-                return clientList.get(i);
-            }
-        }
-        return clientList.stream().filter(c -> c.getEmail().equals(email)).findFirst().get();
+        String hql = "FROM Client WHERE email = :email";
+
+        return  Optional.ofNullable(session.createQuery(hql, Client.class)
+                .setParameter("email", email)
+                .uniqueResult());
     }
 
-    public Client getClientById(Long id) {
+    @Transactional
+    public void register(Client client){
         Session session = sessionFactory.getCurrentSession();
-        return session.get(Client.class, id);
+        session.persist(client);
     }
 }
