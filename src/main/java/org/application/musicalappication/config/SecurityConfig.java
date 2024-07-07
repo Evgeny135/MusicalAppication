@@ -1,4 +1,4 @@
-package org.application.musicalappication.security;
+package org.application.musicalappication.config;
 
 import org.application.musicalappication.service.ClientDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/").permitAll()
-                .requestMatchers("/public/**","/register/**").permitAll()  // Делаем все запросы с корнем public с общим доступом
+                                .requestMatchers("/public/**","/register/**").permitAll() // Делаем все запросы с корнем public с общим доступом
+                                .requestMatchers("/playlist/**").authenticated()
                 .requestMatchers("/secured/**").authenticated() // Делаем все запросы с корнем secured с закрытым доступом
                 )
                 .formLogin(AbstractAuthenticationFilterConfigurer::permitAll)
