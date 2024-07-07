@@ -24,7 +24,7 @@ public class ClientDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Arrays.stream(this.client.getRole().getName().split(" ")).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
-    }
+
     @Override
     public String getUsername() {
         return client.getEmail();
