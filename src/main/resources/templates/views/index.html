@@ -7,13 +7,18 @@
     <meta charset="UTF-8">
     <title>Index</title>
 </head>
-<body>
-<div class="row" th:insert="templs/nav::nav"></div>
-<div class="container"><h1 th:text="'Добро пожаловать, ' + ${username} + '!'">Добро пожаловать, Аноним!</h1>
+<body class="d-flex flex-column min-vh-100">
+
+<div class="container-flow" th:insert="templs/nav::nav"></div>
+
+<div class="container flex-fill"><h1 th:text="'Добро пожаловать, ' + ${username} + '!'">Добро пожаловать, Аноним!</h1>
     <br>
     <a href="/secured/user">User</a>
     <br>
-    <a href="/secured/admin">Admin</a></div>
+    <a href="/secured/admin">Admin</a
+    ></div>
+
+<div class="container-flow" th:insert="templs/footer::footer"></div>
 
 </body>
 </html>

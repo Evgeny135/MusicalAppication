@@ -21,7 +21,7 @@ public class RegistrationController {
     @GetMapping("/register")
     public String showRegistrationForm(Model model){
         model.addAttribute("client", new Client());
-        return "register";
+        return "views/register";
     }
 
     @PostMapping("/register")
