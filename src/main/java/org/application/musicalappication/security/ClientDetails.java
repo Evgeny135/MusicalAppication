@@ -3,9 +3,12 @@ package org.application.musicalappication.security;
 import org.application.musicalappication.model.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 public class ClientDetails implements UserDetails {
     private final Client client;
@@ -20,7 +23,7 @@ public class ClientDetails implements UserDetails {
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return Arrays.stream(this.client.getRole().getName().split(" ")).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
     }
     @Override
     public String getUsername() {

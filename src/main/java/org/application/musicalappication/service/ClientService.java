@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ClientService {
 
-    private final ClientRepository repository;
+    private ClientRepository repository;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
 
