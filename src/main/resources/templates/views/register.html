@@ -10,9 +10,9 @@
 
 <div class="container-flow" th:insert="~{templs/nav::nav}"></div>
 
-<main class="container flex-fill">
-    <h1>Регистрация</h1>
-    <form class="col-lg-3" action="#" th:action="@{/register}" th:object="${client}" method="post">
+<main class="container flex-fill mt-5">
+    <form class="col-md-3 mx-auto text-start" action="#" th:action="@{/register}" th:object="${client}" method="post">
+        <h1>Регистрация</h1>
         <label class="form-label" for="name">Имя пользователя:</label>
         <input class="form-control" type="text" id="name" th:field="*{name}" /><br>
 

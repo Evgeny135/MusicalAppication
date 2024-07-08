@@ -28,6 +28,11 @@ public class ClientRepository {
     }
 
     @Transactional
+    public Optional<Client> getClientById(long id) {
+        Session session = sessionFactory.getCurrentSession();
+        return  Optional.ofNullable(session.find(Client.class,id));
+    }
+    @Transactional
     public void register(Client client){
         Session session = sessionFactory.getCurrentSession();
         session.persist(client);

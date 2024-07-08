@@ -22,10 +22,13 @@ public class ClientService {
         this.roleRepository = roleRepository;
     }
 
-    public Client getClientById(String email){
-        return repository.getClientByEmail(email).get();
+    public Client getClientById(long id){
+        return repository.getClientById(id).get();
     }
 
+    public Client getClientByEmail(String email){
+        return repository.getClientByEmail(email).get();
+    }
     public void register(Client client){
         Role role = roleRepository.getRoleByName("USER").get();
         client.setRole(role);

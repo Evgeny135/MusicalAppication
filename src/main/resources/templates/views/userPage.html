@@ -1,14 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <meta charset="UTF-8">
-    <title>UserPage</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <title th:text="${client.name}">UserPage</title>
 </head>
-<body>
-<p>User</p>
-<br>
-<a href="/public/welcome">На главную</a>
-<br>
-<a href="/logout">Выход</a>
+<body class="d-flex flex-column min-vh-100">
+
+<div class="container-flow" th:insert="~{templs/nav::nav}"></div>
+
+<main class="container flex-fill mt-5">
+<!--    Информация о пользователе-->
+    <div class="row" th:object="${client}">
+        <h1 th:text="*{name}">Имя пользователя</h1>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-4">
+            <h2>Треки</h2>
+            <ol class="list-group list-group-flush list-group-numbered">
+                <li th:each="track : ${traks}" class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div th:text="${track.getTitle()}" class="fw-bold">Название трека</div>
+                        <span th:text="${track.getAlbum()}">Альбом</span>
+                    </div>
+                    <span class="badge bg-primary rounded-pill">Длительность 1:22</span>
+                </li>
+            </ol>
+        </div>
+
+        <div class="col-md-4">
+            <h2>Альбомы</h2>
+            <ol class="list-group list-group-flush list-group-numbered">
+                <li th:each="album : ${albums}" class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div th:text="${album.getTitle()}" class="fw-bold">Название альбома (плейлиста)</div>
+                        <span th:text="${album.getType()}">Тип</span>
+                    </div>
+                    <span class="badge bg-primary rounded-pill">Размер 1</span>
+                </li>
+            </ol>
+        </div>
+
+        <div class="col-md-4">
+            <h2>Плейлисты</h2>
+            <ol class="list-group list-group-flush list-group-numbered">
+                <li th:each="playlist : ${playlists}" class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div th:text="${playlist.getTitle()}" class="fw-bold">Название плейлиста</div>
+                        <span th:text="${playlist.getType()}">Тип</span>
+                    </div>
+                    <span class="badge bg-primary rounded-pill">Размер 1</span>
+                </li>
+            </ol>
+        </div>
+
+    </div>
+
+</main>
+
+<div class="container-flow" th:insert="~{templs/footer::footer}"></div>
+
 </body>
 </html>
