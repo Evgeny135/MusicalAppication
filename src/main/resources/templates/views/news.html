@@ -5,18 +5,19 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link rel="icon" th:href="@{/images/logo.png}" type="image/png">
     <meta charset="UTF-8">
-    <title>Index</title>
+    <title>Новости</title>
 </head>
 <body class="d-flex flex-column min-vh-100">
 
 <div class="container-flow" th:insert="~{templs/nav::nav}"></div>
 
-<div class="container flex-fill"><h1 th:text="'Добро пожаловать, ' + ${username} + '!'">Добро пожаловать, Аноним!</h1>
-    <br>
-    <a href="/secured/user">User</a>
-    <br>
-    <a href="/secured/admin">Admin</a
-    ></div>
+<div class="container flex-fill">
+    <h1>Новости сайта</h1>
+    <h2>2024</h2>
+    <p>
+        Начало разработки
+    </p>
+</div>
 
 <div class="container-flow" th:insert="~{templs/footer::footer}"></div>
 

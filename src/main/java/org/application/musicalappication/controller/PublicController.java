@@ -28,4 +28,12 @@ public class PublicController {
         }
         return "views/index";
     }
+    @GetMapping("/about")
+    public String about(){
+        return "views/about";
+    }
+    @GetMapping("/news")
+    public String news(){
+        return "views/news";
+    }
 }
