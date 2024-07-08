@@ -26,6 +26,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth
+                                .requestMatchers("/upload/**").permitAll()
                 .requestMatchers("/").permitAll()
                                 .requestMatchers("/public/**","/register/**").permitAll() // Делаем все запросы с корнем public с общим доступом
                                 .requestMatchers("/playlist/**").authenticated()
