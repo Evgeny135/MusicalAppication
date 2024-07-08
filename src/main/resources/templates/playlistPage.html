@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+
+    <title>Title</title>
+</head>
+<body>
+    <div th:each="playlist : ${playlists}">
+        <p th:text="${playlist.getTitle()}"></p>
+        <p th:text="${playlist.getDescription()}"></p>
+        <img th:src="${playlist.getCover()}">
+    </div>
+</body>
+</html>
