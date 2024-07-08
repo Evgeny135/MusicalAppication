@@ -27,4 +27,26 @@ public class PlaylistRepository {
         return Optional.ofNullable(session.createQuery(hql, Playlist.class).setParameter("client",id).getResultList());
     }
 
+    @Transactional
+    public Optional<List<Playlist>> getAlbumsByUser(Long id){
+        Session session = sessionFactory.getCurrentSession();
+        String hql = "FROM Playlist p WHERE p.playlistType.name ='album' and p.client.id = :id";
+
+        return Optional.ofNullable(session.createQuery(hql, Playlist.class).setParameter("id",id).getResultList());
+    }
+
+    @Transactional
+    public Optional<List<Playlist>> getUserPlaylistsByUser(Long id){
+        Session session = sessionFactory.getCurrentSession();
+        String hql = "FROM Playlist p WHERE p.playlistType.name ='UserPlaylist' and p.client.id = :id";
+
+        return Optional.ofNullable(session.createQuery(hql, Playlist.class).setParameter("id", id).getResultList());
+    }
+
+    @Transactional
+    public Optional<Playlist> getPlaylistById(Long id){
+        Session session = sessionFactory.getCurrentSession();
+        return Optional.ofNullable(session.get(Playlist.class, id));
+    }
+
 }
