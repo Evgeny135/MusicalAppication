@@ -3,6 +3,7 @@ package org.application.musicalappication.repository;
 import jakarta.transaction.Transactional;
 import org.application.musicalappication.model.Playlist;
 import org.application.musicalappication.model.PlaylistType;
+import org.application.musicalappication.model.Track;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,12 @@ public class PlaylistRepository {
     public Optional<Playlist> getPlaylistById(Long id){
         Session session = sessionFactory.getCurrentSession();
         return Optional.ofNullable(session.get(Playlist.class, id));
+    }
+
+    @Transactional
+    public Optional<List<Playlist>> getPlaylistByTrack(Long id){
+        Session session = sessionFactory.getCurrentSession();
+        return Optional.ofNullable(session.get(Track.class, id).getPlaylists());
     }
 
 }
