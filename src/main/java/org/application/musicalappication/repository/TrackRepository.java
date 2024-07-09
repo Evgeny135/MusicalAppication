@@ -1,6 +1,7 @@
 package org.application.musicalappication.repository;
 
 import jakarta.transaction.Transactional;
+import org.application.musicalappication.model.Playlist;
 import org.application.musicalappication.model.Track;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -33,9 +34,9 @@ public class TrackRepository {
     public Optional<List<Track>> getTracksByPlaylist(Long id){
         Session session = sessionFactory.getCurrentSession();
 
-        String hql = "FROM Track  t WHERE t.album = :id";
+        List<Track> listTrack = session.get(Playlist.class, id).getTracks();
 
-        return Optional.ofNullable(session.createQuery(hql, Track.class).setParameter("id", id).getResultList());
+        return Optional.ofNullable(listTrack);
     }
 
     @Transactional
