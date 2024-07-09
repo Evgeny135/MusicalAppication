@@ -26,8 +26,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/","/public/**","/resources/**", "/static/**","/images/**","/register","/upload/**","/audio/**").permitAll()
-                .requestMatchers("/user/**","/playlist/**","/tracks/**").authenticated()
+                .requestMatchers("/","/public/**","/resources/**", "/static/**","/images/**","/register","/upload/**","/audio/**","/user/**","/playlist/**").permitAll()
+                .requestMatchers("/track/**").authenticated()
                 .requestMatchers("/secured/**").authenticated() // Делаем все запросы с корнем secured с закрытым доступом
                 )
                 .formLogin(AbstractAuthenticationFilterConfigurer::permitAll)

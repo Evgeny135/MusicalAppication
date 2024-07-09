@@ -22,9 +22,10 @@
             <h2>Треки</h2>
             <ol class="list-group list-group-flush list-group-numbered">
                 <li th:each="track : ${tracks}" class="list-group-item d-flex justify-content-between align-items-start">
-                    <div class="ms-2 me-auto">
+                    <div class="ms-2 me-auto link-secondary">
+                        <a class="stretched-link" th:href="@{/track/{id}(id=${track.getId()})}"></a>
                         <div th:text="${track.getTitle()}" class="fw-bold">Название трека</div>
-                        <span th:text="${track.getAlbum()}">Альбом</span>
+                        <span th:text="${track.getAlbum().getTitle()}">Альбом</span>
                     </div>
                     <span th:text="${track.getLength()}" class="badge bg-primary rounded-pill">Длительность</span>
                 </li>
@@ -35,11 +36,15 @@
             <h2>Альбомы</h2>
             <ol class="list-group list-group-flush list-group-numbered">
                 <li th:each="album : ${albums}" class="list-group-item d-flex justify-content-between align-items-start">
-                    <div class="ms-2 me-auto">
-                        <div th:text="${album.getTitle()}" class="fw-bold">Название альбома (плейлиста)</div>
-                        <span th:text="${album.getPlaylistType()}">Тип</span>
+
+                    <div class="ms-2 me-auto link-secondary">
+                        <a class="stretched-link" th:href="@{/playlist/{id}(id=${album.getId()})}"></a>
+                        <div th:text="${album.getTitle()}"  class="fw-bold">Название альбома (плейлиста)</div>
+                        <span th:text="${album.getPlaylistType().getName()}">Тип</span>
+
                     </div>
                     <span th:text="${album.getSize()}" class="badge bg-primary rounded-pill">Размер</span>
+
                 </li>
             </ol>
         </div>
@@ -48,9 +53,10 @@
             <h2>Плейлисты</h2>
             <ol class="list-group list-group-flush list-group-numbered">
                 <li th:each="playlist : ${playlists}" class="list-group-item d-flex justify-content-between align-items-start">
-                    <div class="ms-2 me-auto">
+                    <div class="ms-2 me-auto link-secondary">
+                        <a class="stretched-link" th:href="@{/playlist/{id}(id=${playlist.getId()})}"></a>
                         <div th:text="${playlist.getTitle()}" class="fw-bold">Название плейлиста</div>
-                        <span th:text="${playlist.getPlaylistType()}">Тип</span>
+                        <span th:text="${playlist.getPlaylistType().getName()}">Тип</span>
                     </div>
                     <span th:text="${playlist.getSize()}" class="badge bg-primary rounded-pill">Размер 1</span>
                 </li>

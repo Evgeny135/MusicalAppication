@@ -22,7 +22,9 @@ public class PlaylistService {
     public Optional<List<Playlist>> getPlaylistByClient(Long id){
         return playlistRepository.getPlaylistByClient(id);
     }
-
+    public Optional<List<Playlist>> getPlaylistsByTrack(Long id) {
+        return playlistRepository.getPlaylistByTrack(id);
+    }
     public Optional<List<Playlist>> getAlbumsByUser(Long id){
         return playlistRepository.getAlbumsByUser(id);
     }

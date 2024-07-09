@@ -97,7 +97,9 @@ public class Playlist {
         this.cover = cover;
     }
 
-
+    public int getSize(){
+        return tracks.size();
+    }
     @Override
     public String toString() {
         return "Playlist{" +

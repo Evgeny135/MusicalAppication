@@ -3,6 +3,7 @@ package org.application.musicalappication.repository;
 import jakarta.transaction.Transactional;
 import org.application.musicalappication.model.Playlist;
 import org.application.musicalappication.model.PlaylistType;
+import org.application.musicalappication.model.Track;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +27,15 @@ public class PlaylistRepository {
         String hql = "FROM Playlist p WHERE p.client.id = :client";
         return Optional.ofNullable(session.createQuery(hql, Playlist.class).setParameter("client",id).getResultList());
     }
-
+    @Transactional
+    public Optional<List<Playlist>> getPlaylistByTrack(Long id){
+        Session session = sessionFactory.getCurrentSession();
+        return Optional.ofNullable(session.get(Track.class, id).getPlaylists());
+    }
     @Transactional
     public Optional<List<Playlist>> getAlbumsByUser(Long id){
         Session session = sessionFactory.getCurrentSession();
-        String hql = "FROM Playlist p WHERE p.playlistType.name ='album' and p.client.id = :id";
+        String hql = "FROM Playlist p WHERE (p.playlistType.name ='album' or p.playlistType.name ='Альбом') and p.client.id = :id";
 
         return Optional.ofNullable(session.createQuery(hql, Playlist.class).setParameter("id",id).getResultList());
     }
@@ -38,7 +43,7 @@ public class PlaylistRepository {
     @Transactional
     public Optional<List<Playlist>> getUserPlaylistsByUser(Long id){
         Session session = sessionFactory.getCurrentSession();
-        String hql = "FROM Playlist p WHERE p.playlistType.name ='UserPlaylist' and p.client.id = :id";
+        String hql = "FROM Playlist p WHERE (p.playlistType.name ='UserPlaylist' or p.playlistType.name ='Пользовательский плейлист') and p.client.id = :id";
 
         return Optional.ofNullable(session.createQuery(hql, Playlist.class).setParameter("id", id).getResultList());
     }

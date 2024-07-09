@@ -1,7 +1,9 @@
 package org.application.musicalappication.controller;
 
+import org.application.musicalappication.model.Playlist;
 import org.application.musicalappication.model.Track;
 import org.application.musicalappication.security.ClientDetails;
+import org.application.musicalappication.service.PlaylistService;
 import org.application.musicalappication.service.StorageService;
 import org.application.musicalappication.service.TrackService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,24 +15,49 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Controller
+@RequestMapping("/track")
 public class TrackController {
 
     private final StorageService storageService;
     private final TrackService trackService;
+    private final PlaylistService playlistService;
+
 
     @Autowired
-    public TrackController(StorageService storageService, TrackService trackService) {
+    public TrackController(StorageService storageService, TrackService trackService,PlaylistService playlistService) {
         this.storageService = storageService;
         this.trackService = trackService;
+        this.playlistService = playlistService;
+    }
+
+    @GetMapping("/{id}")
+    public String getTrackById(@PathVariable("id") long id , Model model){
+        Track track;
+        List<Playlist> playlists;
+        if (trackService.getTrackById(id).isPresent()){
+            track = trackService.getTrackById(id).get();
+        }
+        else{
+            track = new Track();
+        }
+        if (playlistService.getPlaylistsByTrack(id).isPresent()){
+            playlists = playlistService.getPlaylistsByTrack(id).get();
+        }
+        else{
+            playlists = new ArrayList<>();
+        }
+        model.addAttribute("track", track);
+        model.addAttribute("playlists", playlists);
+        return "views/track";
     }
 
     @GetMapping("/upload")
@@ -76,4 +103,6 @@ public class TrackController {
         model.addAttribute("selectedTrack",key);
         return "player";
     }
+
+
 }
