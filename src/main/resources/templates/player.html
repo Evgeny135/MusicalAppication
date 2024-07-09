@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Audio Player</title>
+</head>
+<body>
+<h1>Audio Player</h1>
+
+<audio controls autoplay>
+    <source th:if="${selectedTrack!=null}" th:src="@{/audio/download(key=${selectedTrack})}" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
+
+<h2>Track List</h2>
+<ul>
+    <li th:each="track : ${tracks}">
+        <a th:href="@{/tracks(key=${track.getTags()})}" th:text="${track.getTitle()}">Track</a>
+    </li>
+</ul>
+</body>
+</html>

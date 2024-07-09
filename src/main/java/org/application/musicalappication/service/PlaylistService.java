@@ -5,6 +5,7 @@ import org.application.musicalappication.repository.PlaylistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,5 +21,21 @@ public class PlaylistService {
 
     public Optional<List<Playlist>> getPlaylistByClient(Long id){
         return playlistRepository.getPlaylistByClient(id);
+    }
+
+    public Optional<List<Playlist>> getAlbumsByUser(Long id){
+        return playlistRepository.getAlbumsByUser(id);
+    }
+
+    public Optional<List<Playlist>> getUserPlaylistsByUser(Long id){
+        return playlistRepository.getUserPlaylistsByUser(id);
+    }
+
+    public int getPlaylistSize(Long id){
+        return playlistRepository.getPlaylistByClient(id).orElse(new ArrayList<>()).size();
+    }
+
+    public Optional<Playlist> getPlaylistById(Long id){
+        return playlistRepository.getPlaylistById(id);
     }
 }
