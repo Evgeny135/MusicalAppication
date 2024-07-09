@@ -30,7 +30,7 @@ public class PlaylistRepository {
     @Transactional
     public Optional<List<Playlist>> getAlbumsByUser(Long id){
         Session session = sessionFactory.getCurrentSession();
-        String hql = "FROM Playlist p WHERE p.playlistType.name ='ALBUM' and p.client.id = :id";
+        String hql = "FROM Playlist p WHERE p.playlistType.name ='album' and p.client.id = :id";
 
         return Optional.ofNullable(session.createQuery(hql, Playlist.class).setParameter("id",id).getResultList());
     }
@@ -38,7 +38,7 @@ public class PlaylistRepository {
     @Transactional
     public Optional<List<Playlist>> getUserPlaylistsByUser(Long id){
         Session session = sessionFactory.getCurrentSession();
-        String hql = "FROM Playlist p WHERE p.playlistType.name ='USER_PLAYLIST' and p.client.id = :id";
+        String hql = "FROM Playlist p WHERE p.playlistType.name ='UserPlaylist' and p.client.id = :id";
 
         return Optional.ofNullable(session.createQuery(hql, Playlist.class).setParameter("id", id).getResultList());
     }
