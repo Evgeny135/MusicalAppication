@@ -11,24 +11,48 @@
 <div class="container-flow" th:insert="~{templs/nav::nav}"></div>
 
 <main th:if="${track != null}" class="container flex-fill mt-5">
-    <h1 th:text="${track.getTitle()}">Track title</h1>
+    <div class="row mt-5">
+        <div class="col-6 mx-auto text-start">
+            <h1>О треке</h1>
 
-        <h2  style="position: relative">
-            <a th:text="${track.getAuthor().getName()}" class="link-secondary link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="" th:href="@{/user/{id}(id=${track.getAuthor().getId()})}">Author</a>
+            <span class="fs-3 m-0 p-0 text-secondary">Название трека</span>
+            <span th:text="${track.getTitle()}" class="fs-3  m-0 p-0 ">Track title</span>
+            <br>
 
-        </h2>
-    <h3>Встречается в альбомах и плейлистах:</h3>
-    <ol class="list-group list-group-flush list-group-numbered">
-        <li th:each="playlist : ${playlists}" class="list-group-item d-flex justify-content-between align-items-start">
-            <div class="ms-2 me-auto link-secondary">
-                <a class="stretched-link" href="" th:href="@{/playlist/{id}(id=${playlist.getId()})}"></a>
-                <div  th:text="${playlist.getTitle()}" class="fw-bold ">Название плйейлиста</div>
-                <span th:text="${playlist.getClient().getName()}">Автор</span>
-                <span  th:text="' – ' + ${playlist.getPlaylistType().getName()}"> – Тип</span>
-            </div>
-            <span th:text="${playlist.getSize()}" class="badge bg-primary rounded-pill">Размер</span>
-        </li>
-    </ol>
+            <span class="fs-3 m-0 p-0 text-secondary">Автор</span>
+            <a th:text="${track.getAuthor().getName()}" class="link text-dark fs-3 link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="" th:href="@{/user/{id}(id=${track.getAuthor().getId()})}">Author</a>
+            <br>
+
+            <span class="fs-3 m-0 p-0 text-secondary">Альбом</span>
+            <span th:text="${track.getAlbum().getTitle()}" class="fs-3  m-0 p-0 ">Track album</span>
+            <br>
+
+            <span class="fs-3 m-0 p-0 text-secondary">Тип трека</span>
+            <span th:text="${track.getTrackType().getName()}" class="fs-3  m-0 p-0 ">Track typeName</span>
+
+            <p class="fs-3 m-0 p-0 text-secondary">Прослушать</p>
+            <audio  src="../../static/audio/Мастер%20-%20Снежный%20Охотник.mp3" controls></audio>
+        </div>
+    </div>
+
+
+    <div class="row mb-5">
+        <div class="col-md-6 mx-auto text-start">
+            <h3 class="mt-5">Встречается в альбомах и плейлистах:</h3>
+            <ol class="list-group list-group-flush list-group-numbered">
+                <li th:each="playlist : ${playlists}" class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto link-secondary">
+                        <a class="stretched-link" href="" th:href="@{/playlist/{id}(id=${playlist.getId()})}"></a>
+                        <div  th:text="${playlist.getTitle()}" class="fw-bold ">Название плйейлиста</div>
+                        <span th:text="${playlist.getClient().getName()}">Автор</span>
+                        <span  th:text="' – ' + ${playlist.getPlaylistType().getName()}"> – Тип</span>
+                    </div>
+                    <span th:text="${playlist.getSize()}" class="badge bg-primary rounded-pill">Размер</span>
+                </li>
+            </ol>
+        </div>
+    </div>
+
 </main>
 
 <div class="container-flow" th:insert="~{templs/footer::footer}"></div>

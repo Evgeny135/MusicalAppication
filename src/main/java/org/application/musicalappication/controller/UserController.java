@@ -11,6 +11,7 @@ import org.application.musicalappication.stub.DataStubs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,5 +51,10 @@ public class UserController {
         model.addAttribute("albums", albums);
         model.addAttribute("playlists", playlists);
         return "views/userPage";
+    }
+    @GetMapping("")
+    public String redirectToUser(@AuthenticationPrincipal UserDetails userDetails, Model model){
+        long id = clientService.getClientByEmail(userDetails.getUsername()).getId();
+        return "redirect:/user/" + String.valueOf(id);
     }
 }

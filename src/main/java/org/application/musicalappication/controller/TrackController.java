@@ -62,12 +62,14 @@ public class TrackController {
 
     @GetMapping("/upload")
     public String uploadForm(Model model){
-        return "upload";
+        model.addAttribute("track",new Track());
+        return "views/trackAdd";
     }
 
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file, Model model) {
+        Track track = (Track)model.getAttribute("track");
         String bucketName = "musicbucket";
 
         try {

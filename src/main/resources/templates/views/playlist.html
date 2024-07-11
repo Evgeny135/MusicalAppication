@@ -11,20 +11,41 @@
 <div class="container-flow" th:insert="~{templs/nav::nav}"></div>
 
 <main th:if="${playlist != null}" class="container flex-fill mt-5">
-    <h1 th:text="${playlist.getTitle()}">Playlist title</h1>
-    <h2  style="position: relative">
-        <a th:text="${playlist.getClient().getName()}" class="stretched-link link-secondary link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="" th:href="@{/user/{id}(id=${playlist.getClient().getId()})}">Author</a>
-    </h2>
-    <ol class="list-group list-group-flush list-group-numbered">
-        <li th:each="track : ${tracks}" class="list-group-item d-flex justify-content-between align-items-start">
-            <div class="ms-2 me-auto link-secondary">
-                <a class="stretched-link" href="" th:href="@{/track/{id}(id=${track.getId()})}"></a>
-                <div th:text="${track.getTitle()}" class="fw-bold">Название трека</div>
-                <span th:text="${track.getAuthor().getName()}">Исполнитель</span>
-            </div>
-            <span th:text="${track.getLength()}" class="badge bg-primary rounded-pill">Длительность</span>
-        </li>
-    </ol>
+    <div class="row mt-5">
+        <div class="col-6 mx-auto text-start">
+            <h1>Плейлист</h1>
+            <span class="fs-3 m-0 p-0 text-secondary">Название</span>
+            <span th:text="${playlist.getTitle()}" class="fs-3  m-0 p-0 ">Track title</span>
+            <br>
+
+            <span class="fs-3 m-0 p-0 text-secondary">Автор</span>
+            <a th:text="${playlist.getClient().getName()}" class="link text-dark fs-3 link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="" th:href="@{/user/{id}(id=${playlist.getClient().getId()})}">Author</a>
+            <br>
+
+            <span class="fs-3 m-0 p-0 text-secondary">Описание</span>
+            <span th:text="${playlist.getDescription()}" class="fs-3  m-0 p-0 ">Playlist description</span>
+            <br>
+
+            <span class="fs-3 m-0 p-0 text-secondary">Тип</span>
+            <span th:text="${playlist.getPlaylistType().getName()}" class="fs-3  m-0 p-0 ">Playlist typeName</span>
+            <br>
+
+            <span class="fs-3 m-0 p-0 text-secondary">Количество треков</span>
+            <span th:text="${playlist.getSize()}" class="fs-3  m-0 p-0 ">Playlist trackCount</span>
+
+            <hr>
+            <ol class="list-group list-group-flush list-group-numbered">
+                <li th:each="track : ${tracks}" class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto link-secondary">
+                        <a class="stretched-link" href="" th:href="@{/track/{id}(id=${track.getId()})}"></a>
+                        <div th:text="${track.getTitle()}" class="fw-bold">Название трека</div>
+                        <span th:text="${track.getAuthor().getName()}">Исполнитель</span>
+                    </div>
+                    <span th:text="${track.getLength()}" class="badge bg-primary rounded-pill">Длительность</span>
+                </li>
+            </ol>
+        </div>
+    </div>
 </main>
 
 <div class="container-flow" th:insert="~{templs/footer::footer}"></div>
