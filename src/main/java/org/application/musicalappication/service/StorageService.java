@@ -46,7 +46,7 @@ public class StorageService {
             throw new RuntimeException(e);
         }
 
-        return response.eTag();
+        return uuid.toString();
     }
 
     public byte[] loadFile(String bucket, String key){

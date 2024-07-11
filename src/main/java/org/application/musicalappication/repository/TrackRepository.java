@@ -22,6 +22,13 @@ public class TrackRepository {
     }
 
     @Transactional
+    public void addNewTrack(Track track){
+        Session session  = sessionFactory.getCurrentSession();
+        
+        session.persist(track);
+    }
+
+    @Transactional
     public Optional<List<Track>> getTracksByUserId(Long id){
         Session session = sessionFactory.getCurrentSession();
 

@@ -44,8 +44,8 @@ public class TrackController {
         String bucketName = "musicbucket";
 
         try {
-            String eTag = storageService.uploadFile(bucketName, file);
-            return new ResponseEntity<>("File uploaded successfully with eTag: " + eTag, HttpStatus.OK);
+            storageService.uploadFile(bucketName, file);
+            return new ResponseEntity<>("File uploaded successfully", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Failed to upload file", HttpStatus.INTERNAL_SERVER_ERROR);
         }
