@@ -19,9 +19,8 @@ public class Track {
     @JoinColumn(name = "author", referencedColumnName = "id")
     private Client author;
 
-    @ManyToOne
-    @JoinColumn(name = "album", referencedColumnName = "id")
-    private Playlist album;
+    @Column(name = "album")
+    private String album;
 
     @Column(name = "cover")
     private String cover;
@@ -74,11 +73,11 @@ public class Track {
         this.author = author;
     }
 
-    public Playlist getAlbum() {
+    public String getAlbum() {
         return album;
     }
 
-    public void setAlbum(Playlist album) {
+    public void setAlbum(String album) {
         this.album = album;
     }
 

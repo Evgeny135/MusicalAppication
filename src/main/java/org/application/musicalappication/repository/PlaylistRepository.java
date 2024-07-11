@@ -54,4 +54,10 @@ public class PlaylistRepository {
         return Optional.ofNullable(session.get(Playlist.class, id));
     }
 
+    @Transactional
+    public Optional<List<Playlist>> getPlaylistByTrack(Long id){
+        Session session = sessionFactory.getCurrentSession();
+        return Optional.ofNullable(session.get(Track.class, id).getPlaylists());
+    }
+
 }
