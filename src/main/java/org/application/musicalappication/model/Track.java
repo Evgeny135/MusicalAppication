@@ -2,6 +2,9 @@ package org.application.musicalappication.model;
 
 import jakarta.persistence.*;
 
+import java.sql.Time;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Entity
@@ -26,7 +29,7 @@ public class Track {
     private String cover;
 
     @Column(name = "length")
-    private String length;
+    private Time length;
 
     @ManyToOne
     @JoinColumn(name = "track_type", referencedColumnName = "id")
@@ -89,11 +92,11 @@ public class Track {
         this.cover = cover;
     }
 
-    public String getLength() {
+    public Time getLength() {
         return length;
     }
 
-    public void setLength(String length) {
+    public void setLength(Time length) {
         this.length = length;
     }
 

@@ -37,7 +37,7 @@ public class TrackController {
 
 
     @Autowired
-    public TrackController(StorageService storageService, TrackService trackService,PlaylistService playlistService, TrackTypeService trackTypeService) {
+    public TrackController(StorageService storageService, TrackService trackService, PlaylistService playlistService, TrackTypeService trackTypeService) {
         this.storageService = storageService;
         this.trackService = trackService;
         this.playlistService = playlistService;
@@ -45,19 +45,17 @@ public class TrackController {
     }
 
     @GetMapping("/{id}")
-    public String getTrackById(@PathVariable("id") long id , Model model){
+    public String getTrackById(@PathVariable("id") long id, Model model) {
         Track track;
         List<Playlist> playlists;
-        if (trackService.getTrackById(id).isPresent()){
+        if (trackService.getTrackById(id).isPresent()) {
             track = trackService.getTrackById(id).get();
-        }
-        else{
+        } else {
             track = new Track();
         }
-        if (playlistService.getPlaylistsByTrack(id).isPresent()){
+        if (playlistService.getPlaylistsByTrack(id).isPresent()) {
             playlists = playlistService.getPlaylistsByTrack(id).get();
-        }
-        else{
+        } else {
             playlists = new ArrayList<>();
         }
         model.addAttribute("track", track);
@@ -66,35 +64,34 @@ public class TrackController {
     }
 
     @GetMapping("/upload")
-    public String uploadForm(Model model){
-        model.addAttribute("track",new Track());
-        model.addAttribute("trackTypes",trackTypeService.getAllTrackType().orElse(new ArrayList<>()));
+    public String uploadForm(Model model) {
+        model.addAttribute("track", new Track());
+        model.addAttribute("trackTypes", trackTypeService.getAllTrackType().orElse(new ArrayList<>()));
         return "views/trackAdd";
     }
 
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file, Model model) {
-        Track track = (Track)model.getAttribute("track");
-        String bucketName = "musicbucket";
-
+    public ResponseEntity<String> uploadFile(TrackType trackType,@ModelAttribute Track track,@RequestParam(value = "file",required = false) MultipartFile file, @AuthenticationPrincipal ClientDetails clientDetails) {
+//        Track track = (Track)model.getAttribute("track");
+        track.getTitle();
         try {
-            storageService.uploadFile(bucketName, file);
-            return new ResponseEntity<>("File uploaded successfully", HttpStatus.OK);
+            trackService.loadTrack(track, clientDetails.getClient(), file);
+            return new ResponseEntity<>("Музыка успешно загружна", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Failed to upload file", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Ошибка при загрузке", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/audio")
-    public String getAudio(@RequestParam String key ,Model model){
+    public String getAudio(@RequestParam String key, Model model) {
         model.addAttribute("bucketName", "musicbucket");
         model.addAttribute("key", key);
         return "audio";
     }
 
     @GetMapping("/audio/download")
-    public ResponseEntity<ByteArrayResource> music(@RequestParam String key){
+    public ResponseEntity<ByteArrayResource> music(@RequestParam String key) {
         byte[] data = storageService.loadFile("musicbucket", key);
         ByteArrayResource resource = new ByteArrayResource(data);
 
@@ -105,10 +102,10 @@ public class TrackController {
     }
 
     @GetMapping("/tracks")
-    public String tracks(@RequestParam(required = false) String key,@AuthenticationPrincipal ClientDetails clientDetails, Model model){
+    public String tracks(@RequestParam(required = false) String key, @AuthenticationPrincipal ClientDetails clientDetails, Model model) {
         List<Track> trackList = trackService.getTrackByClient(clientDetails.getClient().getId()).get();
         model.addAttribute("tracks", trackList);
-        model.addAttribute("selectedTrack",key);
+        model.addAttribute("selectedTrack", key);
         return "player";
     }
 

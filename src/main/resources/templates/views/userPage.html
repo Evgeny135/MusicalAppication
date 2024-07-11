@@ -25,7 +25,7 @@
                     <div class="ms-2 me-auto link-secondary">
                         <a class="stretched-link" th:href="@{/track/{id}(id=${track.getId()})}"></a>
                         <div th:text="${track.getTitle()}" class="fw-bold">Название трека</div>
-                        <span th:text="${track.getAlbum().getTitle()}">Альбом</span>
+                        <span th:text="${track.getAlbum()}">Альбом</span>
                     </div>
                     <span th:text="${track.getLength()}" class="badge bg-primary rounded-pill">Длительность</span>
                 </li>

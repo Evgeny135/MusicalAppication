@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.Time;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +25,7 @@ public class TrackService {
 
     public void loadTrack(Track track, Client client, MultipartFile file){
         track.setAuthor(client);
+        track.setLength(new Time(0,4,3));
         track.setTags(storageService.uploadFile("musicbucket",file));
 
         trackRepository.addNewTrack(track);

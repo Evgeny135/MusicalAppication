@@ -11,28 +11,24 @@
 <div th:insert="~{templs/nav::nav}" class="container-flow" ></div>
 
 <main class="container flex-fill mt-5">
-    <form th:object="${track}" th:action="@{/track/add}" class="col-md-3 mx-auto text-start mt-5" action="#"  method="post" enctype="multipart/form-data">
+    <form th:object="${track}" method="post" enctype="multipart/form-data" th:action="@{/track/upload}" class="col-md-3 mx-auto text-start mt-5" action="#" >
         <h1>Добавить трек</h1>
         <label class="form-label" for="titleInput">Название трека</label>
-        <input th:field="*{title}" class="form-control" type="text" id="titleInput"  />
+        <input th:field="*{title}" class="form-control" type="text" id="titleInput" required />
         <br>
 
         <label class="form-label" for="albumInput">Альбом:</label>
-        <input th:field="*{album}" class="form-control" type="text" id="albumInput"  />
+        <input th:field="*{album}" class="form-control" type="text" id="albumInput"  required />
         <br>
 
         <label class="form-label" for="exampleFormControlSelect1">Выберете тип трека</label>
-        <select th:field="*{trackType}" class="form-control" id="exampleFormControlSelect1" >
-            <option th:each="${track:trackTypes}"></option>
-            <option value="1" selected>Музыка</option>
-            <option value="2" >Подкаст</option>
-            <option value="3" >Звук</option>
-            <option value="4">Аудиокнига</option>
+        <select th:field="*{trackType.id}" class="form-control" id="exampleFormControlSelect1" required>
+            <option th:each="type:${trackTypes}" th:value="${type.id}" th:text="${type.name}"></option>
         </select>
         <br>
 
         <label class="form-label" for="albumInput">Загрузите файл</label>
-        <input class="form-control" type="file" id="imageInput" accept="image/png, image/jpg, image/jpeg">
+        <input class="form-control" type="file" name="file" required>
         <button class="btn btn-primary mt-3" type="submit">Добавить</button>
     </form>
 </main>

@@ -24,14 +24,14 @@
             <br>
 
             <span class="fs-3 m-0 p-0 text-secondary">Альбом</span>
-            <span th:text="${track.getAlbum().getTitle()}" class="fs-3  m-0 p-0 ">Track album</span>
+            <span th:text="${track.getAlbum()}" class="fs-3  m-0 p-0 ">Track album</span>
             <br>
 
             <span class="fs-3 m-0 p-0 text-secondary">Тип трека</span>
             <span th:text="${track.getTrackType().getName()}" class="fs-3  m-0 p-0 ">Track typeName</span>
 
             <p class="fs-3 m-0 p-0 text-secondary">Прослушать</p>
-            <audio  src="../../static/audio/Мастер%20-%20Снежный%20Охотник.mp3" controls></audio>
+            <audio  th:src="@{/track/audio/download(key=${track.getTags()})}" type="audio/mpeg" controls></audio>
         </div>
     </div>
 
