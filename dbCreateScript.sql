@@ -42,7 +42,7 @@ CREATE TABLE track (
     id serial primary key,
     title varchar not null,
     author int references client(id),
-    album int references playlist (id),
+    album varchar,
     cover varchar not null,
     length time not null,
     track_type int references track_type(id),

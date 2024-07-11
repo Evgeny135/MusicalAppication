@@ -2,10 +2,12 @@ package org.application.musicalappication.controller;
 
 import org.application.musicalappication.model.Playlist;
 import org.application.musicalappication.model.Track;
+import org.application.musicalappication.model.TrackType;
 import org.application.musicalappication.security.ClientDetails;
 import org.application.musicalappication.service.PlaylistService;
 import org.application.musicalappication.service.StorageService;
 import org.application.musicalappication.service.TrackService;
+import org.application.musicalappication.service.TrackTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
@@ -31,12 +33,15 @@ public class TrackController {
     private final TrackService trackService;
     private final PlaylistService playlistService;
 
+    private final TrackTypeService trackTypeService;
+
 
     @Autowired
-    public TrackController(StorageService storageService, TrackService trackService,PlaylistService playlistService) {
+    public TrackController(StorageService storageService, TrackService trackService,PlaylistService playlistService, TrackTypeService trackTypeService) {
         this.storageService = storageService;
         this.trackService = trackService;
         this.playlistService = playlistService;
+        this.trackTypeService = trackTypeService;
     }
 
     @GetMapping("/{id}")
@@ -63,6 +68,7 @@ public class TrackController {
     @GetMapping("/upload")
     public String uploadForm(Model model){
         model.addAttribute("track",new Track());
+        model.addAttribute("trackTypes",trackTypeService.getAllTrackType().orElse(new ArrayList<>()));
         return "views/trackAdd";
     }
 

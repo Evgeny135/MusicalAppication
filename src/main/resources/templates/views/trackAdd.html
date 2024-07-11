@@ -23,6 +23,7 @@
 
         <label class="form-label" for="exampleFormControlSelect1">Выберете тип трека</label>
         <select th:field="*{trackType}" class="form-control" id="exampleFormControlSelect1" >
+            <option th:each="${track:trackTypes}"></option>
             <option value="1" selected>Музыка</option>
             <option value="2" >Подкаст</option>
             <option value="3" >Звук</option>
