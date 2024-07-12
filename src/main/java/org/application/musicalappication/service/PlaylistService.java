@@ -1,10 +1,14 @@
 package org.application.musicalappication.service;
 
+import org.application.musicalappication.model.Client;
 import org.application.musicalappication.model.Playlist;
+import org.application.musicalappication.model.Track;
 import org.application.musicalappication.repository.PlaylistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -40,4 +44,10 @@ public class PlaylistService {
     public Optional<Playlist> getPlaylistById(Long id){
         return playlistRepository.getPlaylistById(id);
     }
+
+    public void addPlaylist(Playlist playlist, Client client){
+        playlist.setClient(client);
+        playlistRepository.addPlaylist(playlist);
+    }
+
 }

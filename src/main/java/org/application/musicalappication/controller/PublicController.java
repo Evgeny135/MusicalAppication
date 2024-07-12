@@ -16,12 +16,7 @@ public class PublicController {
     @GetMapping("/welcome")
     public String welcome(@AuthenticationPrincipal UserDetails userDetails, Model model){
         if (userDetails != null){
-            if (userDetails.getAuthorities().contains("ALL")){
-                model.addAttribute("username",userDetails.getUsername() + "aboba");
-            }
-            else {
-                model.addAttribute("username",userDetails.getUsername());
-            }
+            model.addAttribute("username",userDetails.getUsername());
         }
         else {
             model.addAttribute("username", "Гость");

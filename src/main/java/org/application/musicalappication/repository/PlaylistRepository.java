@@ -53,4 +53,9 @@ public class PlaylistRepository {
         Session session = sessionFactory.getCurrentSession();
         return Optional.ofNullable(session.get(Playlist.class, id));
     }
+    @Transactional
+    public void addPlaylist(Playlist playlist){
+        Session session  = sessionFactory.getCurrentSession();
+        session.persist(playlist);
+    }
 }

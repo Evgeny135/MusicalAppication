@@ -2,16 +2,23 @@ package org.application.musicalappication.controller;
 
 import org.application.musicalappication.model.Playlist;
 import org.application.musicalappication.model.Track;
+import org.application.musicalappication.security.ClientDetails;
 import org.application.musicalappication.service.PlaylistService;
+import org.application.musicalappication.service.PlaylistTypeService;
 import org.application.musicalappication.service.TrackService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,22 +29,45 @@ public class PlaylistController {
 
     PlaylistService playlistService;
     TrackService trackService;
+    PlaylistTypeService playlistTypeService;
 
     @Autowired
-    public PlaylistController(PlaylistService playlistService, TrackService trackService){
+    public PlaylistController(PlaylistService playlistService, TrackService trackService,PlaylistTypeService playlistTypeService){
         this.playlistService = playlistService;
         this.trackService = trackService;
+        this.playlistTypeService = playlistTypeService;
     }
+    @GetMapping("/add")
+    @PreAuthorize("hasAuthority('USER')")
+    public String playlistAdd(Model model){
+        model.addAttribute("playlist", new Playlist());
+        model.addAttribute("playlistTypes", playlistTypeService.getAllPlaylistType().orElse(new ArrayList<>()));
+        return "views/playlistAdd";
+    }
+    @PostMapping("/add")
+    @PreAuthorize("hasAuthority('USER')")
+    public String playlistAdd(
+            @ModelAttribute("playlist") Playlist playlist,
+            @AuthenticationPrincipal ClientDetails clientDetails,
+            RedirectAttributes redirectAttributes,
+            Model model
+    ) {
+        try {
+            playlistService.addPlaylist(playlist,clientDetails.getClient());
+            redirectAttributes.addFlashAttribute("successMessage", "Плейлист успешно добавлен");
+        }
+        catch (Exception e){
+            redirectAttributes.addFlashAttribute("errorMessage", "Ошибка добавления плейлиста: " + e.getMessage());
+        }
 
+            return "redirect:/playlist/add";
+    }
     @GetMapping("/{id}")
     public String getPlaylistById(@PathVariable("id") long id , Model model){
         Playlist playlist;
-        if (playlistService.getPlaylistById(id).isPresent()){
-            playlist = playlistService.getPlaylistById(id).get();
-        }
-        else{
-            playlist = new Playlist();
-        }
+
+        playlist = playlistService.getPlaylistById(id).orElse(new Playlist());
+
         List<Track> tracks;
 
         if (playlist.getTracks() != null){
