@@ -8,8 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Time;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class TrackService {
@@ -43,5 +42,24 @@ public class TrackService {
 
     public Optional<Track> getTrackById(Long id){
         return trackRepository.getTrackById(id);
+    }
+
+    public Optional<List<Track>> getTop100Tracks(){
+        return trackRepository.getTop100Tracks();
+    }
+
+    public Optional<List<Track>> findTrackByKey(String key){
+        Set<Track> trackSet = new LinkedHashSet<>();
+
+        // By title
+        trackSet.addAll(trackRepository.findTracksByTitle(key).orElse(new ArrayList<>()));
+        // By author.name
+        trackSet.addAll(trackRepository.findTracksByClientName(key).orElse(new ArrayList<>()));
+        // By album
+        trackSet.addAll(trackRepository.findTracksByAlbum(key).orElse(new ArrayList<>()));
+        // By trackType.name
+        trackSet.addAll(trackRepository.findTracksByTitle(key).orElse(new ArrayList<>()));
+
+        return Optional.of(trackSet.stream().toList());
     }
 }

@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Controller
@@ -113,5 +114,22 @@ public class TrackController {
         return "player";
     }
 
+    @GetMapping("/search")
+    public String findTrack(Model model){
 
+        model.addAttribute("trackList",trackService.getTop100Tracks().orElse(new ArrayList<>()));
+        return "views/trackSearch";
+    }
+
+    @PostMapping("/search")
+    public String findTrackByStr(@RequestParam("searchKey") String key, Model model){
+        if (key.isEmpty()){
+            model.addAttribute("trackList",trackService.getTop100Tracks().orElse(new ArrayList<>()));
+        }
+        else{
+            model.addAttribute("trackList", trackService.findTrackByKey(key).orElse(new ArrayList<>()));
+        }
+
+        return "views/trackSearch";
+    }
 }

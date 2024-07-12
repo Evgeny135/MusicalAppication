@@ -11,10 +11,6 @@
 <div th:insert="~{templs/nav::nav}" class="container-flow" ></div>
 
 <main class="container flex-fill mt-5">
-
-    <div th:if="${successMessage}" class="alert alert-success" role="alert" th:text="${successMessage}"></div>
-    <div th:if="${errorMessage}" class="alert alert-danger" role="alert" th:text="${errorMessage}"></div>
-
     <form th:object="${track}" method="post" enctype="multipart/form-data" th:action="@{/track/upload}" class="col-md-3 mx-auto text-start mt-5" action="#" >
         <h1>Добавить трек</h1>
         <label class="form-label" for="titleInput">Название трека</label>
@@ -32,7 +28,7 @@
         <br>
 
         <label class="form-label" for="albumInput">Загрузите файл</label>
-        <input class="form-control" type="file" name="file" accept=".mp3" required>
+        <input class="form-control" type="file" name="file" required>
         <button class="btn btn-primary mt-3" type="submit">Добавить</button>
     </form>
 </main>

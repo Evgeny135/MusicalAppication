@@ -31,7 +31,7 @@
             <span th:text="${track.getTrackType().getName()}" class="fs-3  m-0 p-0 ">Track typeName</span>
 
             <p class="fs-3 m-0 p-0 text-secondary">Прослушать</p>
-            <audio  th:src="@{/track/audio/download(key=${track.getTags()})}" type="audio/mpeg" controls></audio>
+            <audio style="width: 100%" th:src="@{/track/audio/download(key=${track.getTags()})}" type="audio/mpeg" controls></audio>
         </div>
     </div>
 
