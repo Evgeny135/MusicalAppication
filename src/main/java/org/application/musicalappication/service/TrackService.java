@@ -23,9 +23,11 @@ public class TrackService {
         this.storageService=storageService;
     }
 
-    public void loadTrack(Track track, Client client, MultipartFile file){
+    public void loadTrack(Track track, Client client, MultipartFile file, long length){
         track.setAuthor(client);
-        track.setLength(new Time(0,4,3));
+        Time time = new Time(length*1000);
+        time.setHours(0);
+        track.setLength(time);
         track.setTags(storageService.uploadFile("musicbucket",file));
 
         trackRepository.addNewTrack(track);

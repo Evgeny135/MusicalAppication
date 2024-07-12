@@ -1,13 +1,11 @@
 package org.application.musicalappication.controller;
 
+
+import com.mpatric.mp3agic.Mp3File;
 import org.application.musicalappication.model.Playlist;
 import org.application.musicalappication.model.Track;
-import org.application.musicalappication.model.TrackType;
 import org.application.musicalappication.security.ClientDetails;
-import org.application.musicalappication.service.PlaylistService;
-import org.application.musicalappication.service.StorageService;
-import org.application.musicalappication.service.TrackService;
-import org.application.musicalappication.service.TrackTypeService;
+import org.application.musicalappication.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
@@ -20,9 +18,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 @Controller
@@ -35,13 +33,16 @@ public class TrackController {
 
     private final TrackTypeService trackTypeService;
 
+    private final ConvertFile convertFile;
+
 
     @Autowired
-    public TrackController(StorageService storageService, TrackService trackService, PlaylistService playlistService, TrackTypeService trackTypeService) {
+    public TrackController(StorageService storageService, TrackService trackService, PlaylistService playlistService, TrackTypeService trackTypeService, ConvertFile convertFile) {
         this.storageService = storageService;
         this.trackService = trackService;
         this.playlistService = playlistService;
         this.trackTypeService = trackTypeService;
+        this.convertFile = convertFile;
     }
 
     @GetMapping("/{id}")
@@ -72,11 +73,14 @@ public class TrackController {
 
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(TrackType trackType,@ModelAttribute Track track,@RequestParam(value = "file",required = false) MultipartFile file, @AuthenticationPrincipal ClientDetails clientDetails) {
-//        Track track = (Track)model.getAttribute("track");
-        track.getTitle();
+    public ResponseEntity<String> uploadFile(@ModelAttribute Track track, @RequestParam("file") MultipartFile file, @AuthenticationPrincipal ClientDetails clientDetails) throws IOException {
         try {
-            trackService.loadTrack(track, clientDetails.getClient(), file);
+
+            Mp3File mp3File = new Mp3File(convertFile.convertMultipartFileToFile(file));
+            convertFile.deleteTemplateFile();
+            long durationInSeconds = mp3File.getLengthInSeconds();
+
+            trackService.loadTrack(track, clientDetails.getClient(), file, durationInSeconds);
             return new ResponseEntity<>("Музыка успешно загружна", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Ошибка при загрузке", HttpStatus.INTERNAL_SERVER_ERROR);
