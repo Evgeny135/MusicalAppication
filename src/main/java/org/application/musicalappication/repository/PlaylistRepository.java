@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,5 +58,94 @@ public class PlaylistRepository {
     public void addPlaylist(Playlist playlist){
         Session session  = sessionFactory.getCurrentSession();
         session.persist(playlist);
+    }
+
+    @Transactional
+    public Optional<List<Playlist>> getTopPlaylists(int maxCount){
+        Session session = sessionFactory.getCurrentSession();
+
+        String hql = "FROM Playlist ";
+
+        return Optional.ofNullable(session.createQuery(hql, Playlist.class).setMaxResults(maxCount).getResultList());
+    }
+
+    @Transactional
+    public Optional<List<Playlist>> findPlaylistsByTitle(String key){
+        Session session = sessionFactory.getCurrentSession();
+
+        String hql = "FROM Playlist p WHERE lower(p.title) LIKE :str";
+
+        List<Playlist> playlists = new ArrayList<>();
+
+        // Равенство ключу
+        playlists.addAll(session.createQuery(hql, Playlist.class).setParameter("str", key).getResultList());
+        // Начинается с ключа
+        playlists.addAll(session.createQuery(hql, Playlist.class).setParameter("str",key + "_%").getResultList());
+        // Содержит подстроку
+        playlists.addAll(session.createQuery(hql, Playlist.class).setParameter("str","%_" + key + "_%").getResultList());
+        // Оканчивается на ключ
+        playlists.addAll(session.createQuery(hql, Playlist.class).setParameter("str","%_" + key).getResultList());
+
+        return Optional.of(playlists);
+    }
+
+    @Transactional
+    public Optional<List<Playlist>> findPlaylistsByClientName(String key){
+        Session session = sessionFactory.getCurrentSession();
+
+        String hql = "FROM Playlist p WHERE lower(p.client.name) LIKE :str";
+
+        List<Playlist> playlists = new ArrayList<>();
+
+        // Равенство ключу
+        playlists.addAll(session.createQuery(hql, Playlist.class).setParameter("str", key).getResultList());
+        // Начинается с ключа
+        playlists.addAll(session.createQuery(hql, Playlist.class).setParameter("str",key + "_%").getResultList());
+        // Содержит подстроку
+        playlists.addAll(session.createQuery(hql, Playlist.class).setParameter("str","%_" + key + "_%").getResultList());
+        // Оканчивается на ключ
+        playlists.addAll(session.createQuery(hql, Playlist.class).setParameter("str","%_" + key).getResultList());
+
+        return Optional.of(playlists);
+    }
+
+    @Transactional
+    public Optional<List<Playlist>> findPlaylistsByDescription(String key){
+        Session session = sessionFactory.getCurrentSession();
+
+        String hql = "FROM Playlist p WHERE lower(p.description) LIKE :str";
+
+        List<Playlist> playlists = new ArrayList<>();
+
+        // Равенство ключу
+        playlists.addAll(session.createQuery(hql, Playlist.class).setParameter("str", key).getResultList());
+        // Начинается с ключа
+        playlists.addAll(session.createQuery(hql, Playlist.class).setParameter("str",key + "_%").getResultList());
+        // Содержит подстроку
+        playlists.addAll(session.createQuery(hql, Playlist.class).setParameter("str","%_" + key + "_%").getResultList());
+        // Оканчивается на ключ
+        playlists.addAll(session.createQuery(hql, Playlist.class).setParameter("str","%_" + key).getResultList());
+
+        return Optional.of(playlists);
+    }
+
+    @Transactional
+    public Optional<List<Playlist>> findPlaylistsByTypeName(String key){
+        Session session = sessionFactory.getCurrentSession();
+
+        String hql = "FROM Playlist p WHERE lower(p.playlistType.name) LIKE :str";
+
+        List<Playlist> playlists = new ArrayList<>();
+
+        // Равенство ключу
+        playlists.addAll(session.createQuery(hql, Playlist.class).setParameter("str", key).getResultList());
+        // Начинается с ключа
+        playlists.addAll(session.createQuery(hql, Playlist.class).setParameter("str",key + "_%").getResultList());
+        // Содержит подстроку
+        playlists.addAll(session.createQuery(hql, Playlist.class).setParameter("str","%_" + key + "_%").getResultList());
+        // Оканчивается на ключ
+        playlists.addAll(session.createQuery(hql, Playlist.class).setParameter("str","%_" + key).getResultList());
+
+        return Optional.of(playlists);
     }
 }

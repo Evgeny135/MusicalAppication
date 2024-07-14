@@ -18,10 +18,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 @Controller
@@ -36,6 +34,7 @@ public class TrackController {
 
     private final ConvertFile convertFile;
 
+    public static final int TOP_TRACKS_COUNT = 48;
 
     @Autowired
     public TrackController(StorageService storageService, TrackService trackService, PlaylistService playlistService, TrackTypeService trackTypeService, ConvertFile convertFile) {
@@ -117,14 +116,14 @@ public class TrackController {
     @GetMapping("/search")
     public String findTrack(Model model){
 
-        model.addAttribute("trackList",trackService.getTop100Tracks().orElse(new ArrayList<>()));
+        model.addAttribute("trackList",trackService.getTopTracks(TOP_TRACKS_COUNT).orElse(new ArrayList<>()));
         return "views/trackSearch";
     }
 
     @PostMapping("/search")
     public String findTrackByStr(@RequestParam("searchKey") String key, Model model){
         if (key.isEmpty()){
-            model.addAttribute("trackList",trackService.getTop100Tracks().orElse(new ArrayList<>()));
+            model.addAttribute("trackList",trackService.getTopTracks(TOP_TRACKS_COUNT).orElse(new ArrayList<>()));
         }
         else{
             model.addAttribute("trackList", trackService.findTrackByKey(key).orElse(new ArrayList<>()));

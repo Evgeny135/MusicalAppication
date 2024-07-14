@@ -9,9 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Time;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PlaylistService {
@@ -48,6 +46,24 @@ public class PlaylistService {
     public void addPlaylist(Playlist playlist, Client client){
         playlist.setClient(client);
         playlistRepository.addPlaylist(playlist);
+    }
+
+    public Optional<List<Playlist>> getTopPlaylists(int maxCount){
+        return playlistRepository.getTopPlaylists(maxCount);
+    }
+    public Optional<List<Playlist>> findPlaylistsByKey(String key){
+        Set<Playlist> playlistSet = new LinkedHashSet<>();
+
+        // By title
+        playlistSet.addAll(playlistRepository.findPlaylistsByTitle(key).orElse(new ArrayList<>()));
+        // By author.name
+        playlistSet.addAll(playlistRepository.findPlaylistsByClientName(key).orElse(new ArrayList<>()));
+        // By album
+        playlistSet.addAll(playlistRepository.findPlaylistsByDescription(key).orElse(new ArrayList<>()));
+        // By trackType.name
+        playlistSet.addAll(playlistRepository.findPlaylistsByTypeName(key).orElse(new ArrayList<>()));
+
+        return Optional.of(playlistSet.stream().toList());
     }
 
 }

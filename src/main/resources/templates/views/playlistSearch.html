@@ -13,10 +13,10 @@
 <main class="container flex-fill mt-5">
     <div class="row mt-5">
         <div class="col-md-6 mx-auto">
-            <form method="post" enctype="multipart/form-data" th:action="@{/track/search}" class="row gx-3 gy-2 align-items-center">
+            <form method="post" th:action="@{/playlist/search}" class="row gx-3 gy-2 align-items-center">
                 <div class="col-10">
                     <label class="visually-hidden" for="titleInput">Поиск</label>
-                    <input name="searchKey" class="form-control" type="search" id="titleInput" placeholder="Введите название"/>
+                    <input name="playlistSearchKey" class="form-control" type="search" id="titleInput" placeholder="Введите запрос"/>
                 </div>
                 <div class="col-auto">
                     <button class="btn btn-primary" type="submit">Поиск</button>
@@ -28,13 +28,13 @@
         <div class="col-md-6 mx-auto">
             <hr>
             <ol class="list-group list-group-flush list-group-numbered">
-                <li th:each="track : ${trackList}" class="list-group-item d-flex justify-content-between align-items-start">
+                <li th:each="playlist : ${playlistList}" class="list-group-item d-flex justify-content-between align-items-start">
                     <div class="ms-2 me-auto link-secondary">
-                        <a class="stretched-link" href="" th:href="@{/track/{id}(id=${track.getId()})}"></a>
-                        <div th:text="${track.getTitle()}" class="fw-bold">Название трека</div>
-                        <span th:text="${track.getAuthor().getName()}">Исполнитель</span>
+                        <a class="stretched-link" href="" th:href="@{/playlist/{id}(id=${playlist.getId()})}"></a>
+                        <div th:text="${playlist.getTitle()}" class="fw-bold">Название плейлиста</div>
+                        <span th:text="${playlist.getClient().getName()} + ' – ' + ${playlist.getPlaylistType().getName()}">Исполнитель – Тип плейлиста</span>
                     </div>
-                    <span th:text="${track.getLength()}" class="badge bg-primary rounded-pill">Длительность</span>
+                    <span th:text="${playlist.getSize()}" class="badge bg-primary rounded-pill">Размер</span>
                 </li>
             </ol>
         </div>

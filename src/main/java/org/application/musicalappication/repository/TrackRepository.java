@@ -2,7 +2,6 @@ package org.application.musicalappication.repository;
 
 import jakarta.transaction.Transactional;
 import org.application.musicalappication.model.Playlist;
-import org.application.musicalappication.model.PlaylistType;
 import org.application.musicalappication.model.Track;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -56,12 +55,12 @@ public class TrackRepository {
     }
 
     @Transactional
-    public Optional<List<Track>> getTop100Tracks(){
+    public Optional<List<Track>> getTopTracks(int maxCount){
         Session session = sessionFactory.getCurrentSession();
 
         String hql = "FROM Track";
 
-        return Optional.ofNullable(session.createQuery(hql, Track.class).setMaxResults(100).getResultList());
+        return Optional.ofNullable(session.createQuery(hql, Track.class).setMaxResults(maxCount).getResultList());
     }
 
     @Transactional

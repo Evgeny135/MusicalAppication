@@ -31,6 +31,8 @@ public class PlaylistController {
     TrackService trackService;
     PlaylistTypeService playlistTypeService;
 
+    public static final int TOP_PLAYLISTS_COUNT = 48;
+
     @Autowired
     public PlaylistController(PlaylistService playlistService, TrackService trackService,PlaylistTypeService playlistTypeService){
         this.playlistService = playlistService;
@@ -80,5 +82,23 @@ public class PlaylistController {
         model.addAttribute("playlist", playlist);
         model.addAttribute("tracks", tracks);
         return "views/playlist";
+    }
+
+    @GetMapping("/search")
+    public String playlistList(Model model){
+
+        model.addAttribute("playlistList", playlistService.getTopPlaylists(TOP_PLAYLISTS_COUNT).orElse(new ArrayList<>()));
+        return "views/playlistSearch";
+    }
+
+    @PostMapping("/search")
+    public String playlistSearchList(@RequestParam("playlistSearchKey") String key, Model model){
+        if (key.isEmpty()){
+            model.addAttribute("playlistList",playlistService.getTopPlaylists(TOP_PLAYLISTS_COUNT).orElse(new ArrayList<>()));
+        }
+        else{
+            model.addAttribute("playlistList", playlistService.findPlaylistsByKey(key).orElse(new ArrayList<>()));
+        }
+        return "views/playlistSearch";
     }
 }

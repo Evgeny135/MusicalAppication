@@ -44,8 +44,8 @@ public class TrackService {
         return trackRepository.getTrackById(id);
     }
 
-    public Optional<List<Track>> getTop100Tracks(){
-        return trackRepository.getTop100Tracks();
+    public Optional<List<Track>> getTopTracks(int maxCount){
+        return trackRepository.getTopTracks(maxCount);
     }
 
     public Optional<List<Track>> findTrackByKey(String key){
