@@ -58,7 +58,7 @@ public class TrackService {
         // By album
         trackSet.addAll(trackRepository.findTracksByAlbum(key).orElse(new ArrayList<>()));
         // By trackType.name
-        trackSet.addAll(trackRepository.findTracksByTitle(key).orElse(new ArrayList<>()));
+        trackSet.addAll(trackRepository.findTracksByTypeName(key).orElse(new ArrayList<>()));
 
         return Optional.of(trackSet.stream().toList());
     }
