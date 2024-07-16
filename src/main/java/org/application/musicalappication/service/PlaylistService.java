@@ -24,6 +24,11 @@ public class PlaylistService {
     public Optional<List<Playlist>> getPlaylistByClient(Long id){
         return playlistRepository.getPlaylistByClient(id);
     }
+
+//    public Optional<List<Playlist>> getAvailablePlaylists(Client client, Track track){
+//        return playlistRepository.getAvailablePlaylists();
+//    }
+
     public Optional<List<Playlist>> getPlaylistsByTrack(Long id) {
         return playlistRepository.getPlaylistByTrack(id);
     }

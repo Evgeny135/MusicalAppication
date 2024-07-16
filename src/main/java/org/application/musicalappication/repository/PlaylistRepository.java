@@ -41,6 +41,8 @@ public class PlaylistRepository {
         return Optional.ofNullable(session.createQuery(hql, Playlist.class).setParameter("id",id).getResultList());
     }
 
+
+
     @Transactional
     public Optional<List<Playlist>> getUserPlaylistsByUser(Long id){
         Session session = sessionFactory.getCurrentSession();

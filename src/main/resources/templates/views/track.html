@@ -35,6 +35,23 @@
         </div>
     </div>
 
+    <div class="row mt-3">
+        <div class="col-md-6 mx-auto">
+            <form method="post" th:action="@{/track/addToPlaylist}" class="row gx-3 gy-2 align-items-center">
+                <input type="hidden" name="trackId" th:value="${track.id}" />
+                <a th:if="${userPlaylists.size() <= 0}" th:text="'Создать новый плейлист'" class="link text-dark fs-3 link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="" th:href="@{/playlist/add}"></a>
+
+                <div th:if="${userPlaylists.size() > 0}">
+                    <label class="form-label" for="exampleFormControlSelect1">Добавить в плейлист</label>
+                    <select  name="playlistId" class="form-control" id="exampleFormControlSelect1" required>
+                        <option th:each="userPlaylist:${userPlaylists}" th:value="${userPlaylist.getId()}" th:text="${userPlaylist.getTitle()}"></option>
+                    </select>
+                    <button class="btn btn-primary mt-3" type="submit">Добавить</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
 
     <div class="row mb-5">
         <div class="col-md-6 mx-auto text-start">
