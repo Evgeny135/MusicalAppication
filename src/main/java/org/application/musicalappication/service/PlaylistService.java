@@ -66,4 +66,8 @@ public class PlaylistService {
         return Optional.of(playlistSet.stream().toList());
     }
 
+    public void addTrackOnPlaylist(Playlist playlist, Track track){
+        playlistRepository.addTrackOnPlaylist(playlist,track);
+    }
+
 }

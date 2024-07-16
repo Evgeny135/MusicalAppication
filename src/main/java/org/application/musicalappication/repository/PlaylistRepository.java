@@ -148,4 +148,11 @@ public class PlaylistRepository {
 
         return Optional.of(playlists);
     }
+
+    @Transactional
+    public void addTrackOnPlaylist(Playlist playlist, Track track){
+        Session session = sessionFactory.getCurrentSession();
+        playlist.getTracks().add(track);
+        session.persist(track);
+    }
 }
