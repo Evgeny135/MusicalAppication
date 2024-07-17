@@ -1,6 +1,7 @@
 package org.application.musicalappication.config;
 
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
@@ -14,12 +15,17 @@ import java.net.URI;
 @Configuration
 public class S3Config {
 
+    @Value("${aws.api.key}")
+    private String api;
+    @Value("${aws.secret.key}")
+    private  String secret;
+
     @Bean
     public S3Client s3Client(){
         return S3Client.builder()
                 .region(Region.of("ru-central1-a"))
                 .credentialsProvider(StaticCredentialsProvider.create(
-                        AwsBasicCredentials.create("YCAJEnTJOnfD4Gl4x0wJSH7C_","YCP9qVfLDv8rKf82P0aJjObbt4hR3yCE_S5Do550")
+                        AwsBasicCredentials.create(api,secret)
                 ))
                 .serviceConfiguration(S3Configuration.builder()
                         .pathStyleAccessEnabled(true)
